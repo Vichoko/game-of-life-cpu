@@ -65,22 +65,15 @@ GLuint create_shader(const char* filename, GLenum type) {
 	}
 	GLuint res = glCreateShader(type);
 	const GLchar* sources[] = {
-		"#version 120\n"
-		//#ifdef GL_ES_VERSION_2_0
-				//"#version 100\n"  // OpenGL ES 2.0
-		//#else
-				//"#version 120\n"  // OpenGL 2.1
-		//#endif
-	,
 	source };
-	glShaderSource(res, 2, sources, NULL);
+	glShaderSource(res, 1, sources, NULL);
 	free((void*)source);
 	
 	glCompileShader(res);
 	GLint compile_ok = GL_FALSE;
 	glGetShaderiv(res, GL_COMPILE_STATUS, &compile_ok);
 	if (compile_ok == GL_FALSE) {
-		cerr << filename << ":";
+		cerr << filename << ":\n";
 		print_log(res);
 		glDeleteShader(res);
 		return 0;
