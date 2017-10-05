@@ -6,11 +6,14 @@
 // Description : Game of life sequentially implemented, using C and OpenGL.
 //============================================================================
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <tgmath.h>
+#include <signal.h>
+
 // display
 #include <cstdlib>
 #include <iostream>
@@ -45,6 +48,10 @@ int win_width = WIDTH;
 int win_height = HEIGHT;
 
 using namespace std;
+
+// metricas
+int cells_evaluated = 0;
+double seconds_of_process = 0;
 
 /**
  * Mapea coordenadas x,y (comienzan de 0) a un arreglo uni-dimensional de celdas vivas (1) o muertas(0).
@@ -355,12 +362,18 @@ void mainLoop(SDL_Window* window) {
 				return;
 		}
 		render(window); // transfer the life information to GPU
+		
+		clock_t start = clock();
 		for (int x = 0; x < COLUMNS; x++){
 			/** update life iteration (Bottle neck) **/
 			for (int y = 0; y < ROWS; y++){
 				checkLife(x, y); 
 			}
 		}
+		clock_t end = clock();
+		float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+		seconds_of_process += seconds;
+		cells_evaluated += ROWS*COLUMNS;
 		swapLivesArrays();
 	}
 }
@@ -415,7 +428,21 @@ void init_game_data(){
 	}
 	free(initialAliveCells);
 	}
+	
+void intHandler(int dummy) {
+	float res = (cells_evaluated*1.0)/seconds_of_process;
+	printf("\n///////////////// ESTADISTICAS /////////////////////\n");
+	printf("- Celulas evaluadas: %d\n", cells_evaluated);
+	printf("- Segundos evaluando celulas: %f\n", seconds_of_process);
+	printf("- Celulas evaluadas por segundo: %.f\n", res);
+	printf("- Grilla de tamano %d (%d x %d).\n", COLUMNS*ROWS, COLUMNS, ROWS);
+	printf("HASTA PRONTO!\n");
+	free_resources();
+	exit(1);
+}
 int main() {
+    signal(SIGINT, intHandler);
+
 	/** INICIA DATOS DEL JUEGO **/
 	init_game_data();
 	/** INICIA DISPLAY **/
@@ -435,35 +462,3 @@ void free_resources() {
 }
 
 
-/** DESUSO **/
-/**
- //* Dibuja el juego de la vida en ASCII.
- //*/
-//void draw(int iterCounter){
-	//unsigned int j = 0;
-	//char c;
-	//char buffer[BUFFER_SIZE];
-	//memset(buffer, 0, sizeof(buffer));
-
-///*	j += sprintf(buffer+j, " ");
-	//for (int column = 0; column < COLUMNS; column++){
-		//// print column numers
-		//j += sprintf(buffer+j, "%d", column);
-	//}
-	//j += sprintf(buffer+j, "\n");*/
-
-	//for (int row = 0; row < ROWS; row++){
-		//j += sprintf(buffer+j, "%d", row); // print row numbers
-		//for (int column = 0; column < COLUMNS; column++){
-			//if (isCellAlive(column, row))
-				//c = 254;
-			//else
-				//c = 'o';
-			//j += sprintf(buffer+j, "%c", c);
-		//}
-		//j += sprintf(buffer+j, "\n");
-	//}
-	//printf("Round:%d\n%s\n\n", iterCounter, buffer);
-
-	//sleep(1);
-//}
