@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : gpu_t2.cpp
-// Author      : Vicente Oyanedel
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Name        : CPU.cpp
+// Author      : Vicente Oyanedel Muñoz
+// Version     : 2.7
+// Copyright   : Copyright (c) 2017
+// Description : Game of life sequentially implemented, using C and OpenGL.
 //============================================================================
 
 #include <stdio.h>
@@ -12,11 +12,8 @@
 #include <string.h>
 #include <tgmath.h>
 // display
-
 #include <cstdlib>
 #include <iostream>
-using namespace std;
-
 /* Use glew.h instead of gl.h to get all the GL prototypes declared */
 #include <GL/glew.h>
 /* Using SDL2 for the base window and OpenGL context init */
@@ -30,25 +27,24 @@ using namespace std;
 #define INITIAL_LIVES_FRACTION 0.6
 // En des-uso (ASCII drawing) #define BUFFER_SIZE 9000
 
-
+// juego
 int* livesArrayActual;
 int* livesArrayNext;
 
+// display
 GLuint program;
 GLuint vbo_triangle;
 GLuint vao_triangle;
 GLint attribute_coord2d;
 GLint attribute_color;
 
-
-
-	
+// vertices + colores
 container_t* vertex_n_colors;
-
 
 int win_width = WIDTH;
 int win_height = HEIGHT;
 
+using namespace std;
 
 /**
  * Mapea coordenadas x,y (comienzan de 0) a un arreglo uni-dimensional de celdas vivas (1) o muertas(0).
@@ -248,7 +244,10 @@ container_t* lives_array_to_bw_squares_vertices(){
 	return vertex_n_colors;
 }
 
-
+/**
+ * Inicia shaders y calcula vectores y colres iniciales.
+ * 
+ * */
 bool init_resources(void) {
 	/** SHADER COMPILATION & LINK**/
 	GLint compile_ok = GL_FALSE, link_ok = GL_FALSE;
@@ -314,7 +313,9 @@ bool init_resources(void) {
 	return true;
 }
 
-
+/**
+ * 
+ * Calcula nuevos vertices y colores y los pasa a la gpu, luego dibuja.*/
 void render(SDL_Window* window) {
 	
   /* Clear the background as white */
@@ -340,7 +341,11 @@ void render(SDL_Window* window) {
 	SDL_GL_SwapWindow(window);
 }
 
-
+/**
+ * 
+ * 
+ * Loop del juego de la vida.
+ * */
 void mainLoop(SDL_Window* window) {
 	while(1){
 		// display stuff
@@ -360,7 +365,11 @@ void mainLoop(SDL_Window* window) {
 	}
 }
 
-
+/**
+ * Inicia ventana y recursos.
+ * Retorna referencia a ventana.
+ * 
+ * */
 SDL_Window* init_display_stuff(){
 	/* SDL-related initialising functions */
 	SDL_Init(SDL_INIT_VIDEO);
@@ -389,8 +398,8 @@ SDL_Window* init_display_stuff(){
 	
 	}
 
-int main() {
-	/** INICIA VARIABLES DEL JUEGO **/
+void init_game_data(){
+		/** INICIA VARIABLES DEL JUEGO **/
 	unsigned int iterCounter = 0;
 	bool running = true;
 	// arreglos de vidas flattened
@@ -405,12 +414,14 @@ int main() {
 		livesArrayActual[initialAliveCells[i]] = 1;
 	}
 	free(initialAliveCells);
-	
+	}
+int main() {
+	/** INICIA DATOS DEL JUEGO **/
+	init_game_data();
 	/** INICIA DISPLAY **/
 	SDL_Window* window = init_display_stuff();
 	/** CORRE VIDA */
 	mainLoop(window);
-
 	
 	/* If the program exits in the usual way,
    free resources and exit with a success */
