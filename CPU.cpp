@@ -21,8 +21,8 @@
 #include "shaders/shader_utils.h"
 #include "CPU.h"
 
-#define ROWS 512
-#define COLUMNS 256
+#define ROWS 128
+#define COLUMNS 128
 #define FRAMERATE 150
 #define INITIAL_LIVES_FRACTION 0.6
 // En des-uso (ASCII drawing) #define BUFFER_SIZE 9000

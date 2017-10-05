@@ -3,6 +3,6 @@ LDLIBS=-lSDL2 -lGLEW -lGL
 all: CPU
 clean:
 	rm -f *.o CPU
-CPU: shader_utils.o
+CPU: shaders/shader_utils.o
 
 
