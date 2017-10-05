@@ -432,8 +432,8 @@ void init_game_data(){
 void intHandler(int dummy) {
 	float res = (cells_evaluated*1.0)/seconds_of_process;
 	printf("\n///////////////// ESTADISTICAS /////////////////////\n");
-	printf("- Celulas evaluadas: %d\n celulas", cells_evaluated);
-	printf("- Segundos evaluando celulas: %f\n segundos", seconds_of_process);
+	printf("- Celulas evaluadas: %d celulas\n", cells_evaluated);
+	printf("- Segundos evaluando celulas: %f segundos\n", seconds_of_process);
 	printf("- Celulas evaluadas por segundo: %.f celulas/segundos\n", res);
 	printf("- Tamano de grilla: %d celdas (%d x %d)\n", COLUMNS*ROWS, COLUMNS, ROWS);
 	printf("HASTA PRONTO!\n");
