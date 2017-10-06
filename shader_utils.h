@@ -12,9 +12,6 @@ using namespace std;
 
 using namespace std;
 
-#define WIDTH 800
-#define HEIGHT 800
-
 
 extern char* file_read(const char* filename);
 extern void print_log(GLuint object);

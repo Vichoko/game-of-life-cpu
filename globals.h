@@ -1,0 +1,7 @@
+#define WIDTH 1024
+#define HEIGHT 1024
+#define ROWS 128
+#define COLUMNS 128
+#define FRAMERATE 150
+#define INITIAL_LIVES_FRACTION 0.8
+#define THREADS_PER_BLOCK 8
