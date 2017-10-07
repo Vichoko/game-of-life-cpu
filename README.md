@@ -1,12 +1,19 @@
 # Game of life : CPU
+Game of Life in Cs, displayed using C++ and OpenGL.
+Detalle de implementación y experimentos en ```../informe.md```.
+
 ## Dependencias
 * GL/glew.h
 * SDL.h
 
 ## Compilación
 ```
-$ cd ./src
 $ make
+```
+
+Limpiar con;
+```
+$ make clean
 ```
 
 ## Instalar dependencias (Linux)
@@ -30,10 +37,22 @@ sudo dnf install make gcc-c++  # Fedora
 
 ## Ejecución
 ```
-$ ./CPU
+$ ./cpu
 ```
+Al precionar ```CTRL+C``` la aplicación terinará y mostrará estadísticas de cantidad de celulas evaluadas por segundo, y más.
 
 ## Customización
+Se pueden modificar constantes en "src/globals.h".
+```
+#define WIDTH 800
+#define HEIGHT 800
+#define ROWS 128
+#define COLUMNS 128
+#define FRAMERATE 150
+#define INITIAL_LIVES_FRACTION 0.9
+#define THREADS_PER_BLOCK 8
+```
+
 ### Resolución de vidas
 Se pueden variar la cantidad de columnas (```COLUMNS```) y filas (```ROWS```).
 ### Cantidad inicial de vidas
