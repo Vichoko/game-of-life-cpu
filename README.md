@@ -1,6 +1,10 @@
 # Game of life : CPU
 Game of Life in Cs, displayed using C++ and OpenGL.
+
 Detalle de implementación y experimentos en ```../informe.md```.
+
+![runtime image](https://users.dcc.uchile.cl/~voyanede/cc7515/cpu_gol.png)
+
 
 ## Dependencias
 * GL/glew.h
